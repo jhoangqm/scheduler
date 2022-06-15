@@ -4,58 +4,69 @@ import axios from 'axios';
 import 'components/Application.scss';
 import Appointment from './Appointment';
 import DayList from './DayList';
+import { getAppointmentsForDay } from "helpers/selectors";
 
 const appointments = {
-  1: {
+  "1": {
     id: 1,
-    time: '12pm',
+    time: "12pm",
   },
-  2: {
+  "2": {
     id: 2,
-    time: '1pm',
+    time: "1pm",
     interview: {
-      student: 'Lydia Miller-Jones',
-      interviewer: {
+      student: "Lydia Miller-Jones",
+      interviewer:{
         id: 3,
-        name: 'Sylvia Palmer',
-        avatar: 'https://i.imgur.com/LpaY82x.png',
-      },
-    },
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
   },
-  3: {
+  "3": {
     id: 3,
-    time: '2pm',
+    time: "2pm",
   },
-  4: {
+  "4": {
     id: 4,
-    time: '3pm',
+    time: "3pm",
     interview: {
-      student: 'Archie Andrews',
-      interviewer: {
+      student: "Archie Andrews",
+      interviewer:{
         id: 4,
-        name: 'Cohana Roy',
-        avatar: 'https://i.imgur.com/FK8V841.jpg',
-      },
-    },
+        name: "Cohana Roy",
+        avatar: "https://i.imgur.com/FK8V841.jpg",
+      }
+    }
   },
-  5: {
+  "5": {
     id: 5,
-    time: '4pm',
-  },
+    time: "4pm",
+  }
 };
 
 
-
 export default function Application() {
-  const [day, setDay] = useState([]);
+// const [day, setDay] = useState("Monday");
+// const [days, setDays] = useState([]);
+
+  const [state, setState] = useState({
+    day: "Monday", // setDay function handles this
+    days: [],      // setDays function handles this
+    appointments: {}
+  });
+
+  // Aliasing creates a function called setDay that updates the day state
+  const setDay = day => setState({ ...state, day });
+  // Aliasing creates a function called setDay that updates the days state
+  const setDays = days => setState(prev => ({...prev, days}));
 
   const parsedAppointment = Object.values(appointments).map((appointment) => {
     return <Appointment key={appointment.id} {...appointment} />;
   });
 
   useEffect(()=>{
-    const url = `http://localhost:8001/api/days`
-    axios.get(url).then(response => {setDay([...response.data])});
+    axios.get("/api/days").then(response => setDays(response.data));
   },[])
 
   return (
@@ -68,7 +79,7 @@ export default function Application() {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={day} value={day} onChange={setDay} />
+          <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
