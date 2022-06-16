@@ -29,8 +29,9 @@ function Appointment(props) {
       <Header time={props.time} />
       <article className="appointment">
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+        {/* The show component can also be done this way {...props.interview} creates a shallow copy of the object from the API */}
         {mode === SHOW && <Show student={props.interview.student} interviewer={props.interview.interviewer} />}
-        {mode === CREATE && <Form interviewers={[]} onCancel={() => back(EMPTY)} />}
+        {mode === CREATE && <Form interviewers={props.interviewers} onCancel={() => back(EMPTY)} />}
         </article>
     </Fragment>
   );

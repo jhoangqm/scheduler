@@ -33,3 +33,20 @@ export function getInterview(state, interview) {
   //   interviewer: interviewers[interviewID]
   // })
 }
+
+export function getInterviewersForDay(state, day) {
+  const { days, interviewers } = state; // Adds readability to make it easier to understand
+
+  if (days.length === 0) return [];
+
+  // Checks the state.days and finds if one of the name matches day
+  const checkDay = days.find((eachDay) => eachDay.name === day);
+  // console.log('checkDay :', checkDay);
+
+  if (!checkDay) return [];
+
+  return checkDay.interviewers.map((interviewerID) => {
+    // console.log('interviewers : ', interviewers[interviewerID]);
+    return interviewers[interviewerID];
+  });
+}
