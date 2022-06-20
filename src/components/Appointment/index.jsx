@@ -49,7 +49,11 @@ const Appointment = (props) => {
         <Header time={props.time}/>
         <article className="appointment">
           {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}
-          {mode === SHOW && <Show {...props.interview} onDelete={() => transition(CONFIRM)}/>} 
+          {mode === SHOW && <Show {...props.interview} onDelete={() => transition(CONFIRM)} onEdit={() => {
+            console.log("logs props from Show: ", props);
+            transition(EDIT);
+          }
+          }/>} 
           {/* for Show component, sending props.interview  - which contains student name and interviewer object */}
           {mode === CREATE && <Form 
           interviewers={props.interviewers} 
