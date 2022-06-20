@@ -1,37 +1,39 @@
-import React, { useState } from 'react';
-import InterviewerList from 'components/InterviewerList';
-import Button from 'components/Button';
+import React, { useState } from "react";
+import InterviewerList from "components/InterviewerList";
+import Button from "components/Button";
 
-export default function Form(props) {
-  const [student, setStudent] = useState(props.student || '');
+
+const Form = (props) => {
+
+  const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
   const reset = () => {
-    setStudent('');
+    setStudent("");
     setInterviewer(null);
-  };
+  }
+  
   const cancel = () => {
     reset();
     props.onCancel();
-  };
-
-  const save = () => {
-    props.onSave(student, interviewer);
-  };
+  }
+  console.log("props.interviewers: ", props.interviewers);
 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form onSubmit={(event) => event.preventDefault()}>
+        <form onSubmit={(event)=> event.preventDefault()} autoComplete="off">
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            onChange={(event) => {
-              setStudent(event.target.value);
-            }}
+            onChange={(event)=> {setStudent(event.target.value)}}
             value={student}
+          /*
+            This must be a controlled component
+            your code goes here
+          */
           />
         </form>
         <InterviewerList
@@ -42,14 +44,12 @@ export default function Form(props) {
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger onClick={cancel}>
-            Cancel
-          </Button>
-          <Button confirm onClick={save}>
-            Save
-          </Button>
+          <Button danger onClick={cancel}>Cancel</Button>
+          <Button confirm onClick={() => {props.onSave(student, interviewer)}}>Save</Button>
         </section>
       </section>
     </main>
   );
-}
+};
+
+export default Form;
