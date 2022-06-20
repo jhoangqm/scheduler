@@ -9,11 +9,6 @@ export default function useApplicationData() {
     interviewers: {},
   });
 
-  const updateSpots = (state, appointments) => {
-    const findDay = state.days.find((eachDay) => eachDay.name === state.day);
-    console.log('findDay.appointments: ', findDay.appointments);
-  };
-
   const setDay = (day) => setState({ ...state, day });
 
   useEffect(() => {
@@ -46,7 +41,7 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    // setState({...state, appointments});
+    state.days.find((eachDay) => eachDay.name === state.day).spots--;
 
     return axios
       .put(`/api/appointments/${id}`, appointment)
@@ -65,6 +60,8 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+
+    state.days.find((eachDay) => eachDay.name === state.day).spots++;
     return axios
       .delete(`/api/appointments/${id}`, appointment)
       .then((response) => {
