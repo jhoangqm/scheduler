@@ -18,6 +18,7 @@ const Appointment = (props) => {
   const CONFIRM = "CONFIRM";
   const SAVING = "SAVING";
   const DELETING = "DELETING"
+  const EDIT = "EDIT";
   const ERROR = "ERROR";
 
   const {mode, transition, back} = useVisualMode(
@@ -58,6 +59,12 @@ const Appointment = (props) => {
           {mode === SAVING && <Status message={"Saving"}/>}
           {mode === DELETING && <Status message={"Deleting"}/>}
           {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"}onCancel={() => back()} onConfirm={() => deleteInterview(props.id)}/>}
+          {mode === EDIT && <Form
+          {...props.interview}
+          interviewers={props.interviewers}
+          onCancel={() => back()}
+          onSave={save}
+        />}
         </article>
      
       </Fragment>
