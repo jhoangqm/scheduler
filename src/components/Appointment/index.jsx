@@ -19,8 +19,9 @@ const Appointment = (props) => {
   const SAVING = "SAVING";
   const DELETING = "DELETING"
   const EDIT = "EDIT";
-  const ERROR = "ERROR";
-
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
+  
   const {mode, transition, back} = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -30,10 +31,10 @@ const Appointment = (props) => {
       student: name,
       interviewer
     };
-    console.log("mode : ", mode);
     transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(() => transition(SHOW));
+    .then(() => transition(SHOW))
+    .catch(error => transition(ERROR_SAVE, true));
   }
 
   function deleteInterview(id) {
@@ -41,7 +42,7 @@ const Appointment = (props) => {
     transition(DELETING)
     props.cancelInterview(id)
     .then(() => transition(EMPTY))
-    // transition(EMPTY);
+    .catch(error => transition(ERROR_DELETE, true));
   }
 
     return (
@@ -49,7 +50,9 @@ const Appointment = (props) => {
         <Header time={props.time}/>
         <article className="appointment">
           {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}
-          {mode === SHOW && <Show {...props.interview} onDelete={() => transition(CONFIRM)} onEdit={() => {
+          {mode === SHOW && <Show student={props.interview.student} interviewer={props.interview.interviewer} 
+          onDelete={() => transition(CONFIRM)} 
+          onEdit={() => {
             console.log("logs props from Show: ", props);
             transition(EDIT);
           }
@@ -69,6 +72,8 @@ const Appointment = (props) => {
           onCancel={() => back()}
           onSave={save}
         />}
+          {mode === ERROR_SAVE && <Error message={"Error occurred during saving"} onClose={() => back()}/>}
+          {mode === ERROR_DELETE && <Error message={"Error occurred during deleting"} onClose={() => back()}/>}
         </article>
      
       </Fragment>
