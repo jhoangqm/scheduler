@@ -1,13 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function useApplicationData() {
+export default function useApplicationData(initial) {
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
     appointments: {},
     interviewers: {},
   });
+
+  const updateSpots = function (state, appointments, id) {
+    const dayObj = state.days.find((d) => d.name === state.day);
+
+    let spots = 0;
+
+    for (const id of dayObj.appointments) {
+      const appointment = appointments[id];
+      if (!appointment.interview) {
+        spots++;
+      }
+    }
+
+    const newDay = { ...dayObj, spots };
+    const days = state.days.map((day) =>
+      day.name === state.day ? newDay : day
+    );
+
+    return days;
+  };
 
   const setDay = (day) => setState({ ...state, day });
 
@@ -41,12 +61,11 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    state.days.find((eachDay) => eachDay.name === state.day).spots--;
-
     return axios
       .put(`/api/appointments/${id}`, appointment)
       .then((response) => {
-        setState({ ...state, appointments });
+        const days = updateSpots(state, appointment);
+        setState({ ...state, appointments, days });
       });
   }
 
@@ -61,11 +80,11 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    state.days.find((eachDay) => eachDay.name === state.day).spots++;
     return axios
       .delete(`/api/appointments/${id}`, appointment)
       .then((response) => {
-        setState({ ...state, appointments });
+        const days = updateSpots(state, appointments);
+        setState({ ...state, appointments, days });
       });
   }
 

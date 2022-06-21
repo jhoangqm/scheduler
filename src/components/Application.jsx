@@ -9,9 +9,6 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 
 
 export default function Application(props) {
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-  
   const {
     state,
     setDay,
@@ -19,22 +16,23 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
-  const interviewers = getInterviewersForDay(state, state.day);
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyInterviewers = getInterviewersForDay(state, state.day);
+  
+  const parsedAppointments = dailyAppointments.map((appointment)=> {
+    const interview = getInterview(state, appointment.interview);
+    return(
+      <Appointment 
+        key={appointment.id}
+        {...appointment}
+        interview={interview}
+        interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
+    )
+  })
 
-  const appointments = getAppointmentsForDay(state, state.day).map(
-    appointment => {
-      return (
-        <Appointment
-          key={appointment.id}
-          {...appointment}
-          interview={getInterview(state, appointment.interview)}
-          interviewers={interviewers}
-          bookInterview={bookInterview}
-          cancelInterview={cancelInterview}
-        />
-      );
-    }
-  );
 
 
   return (
@@ -60,7 +58,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {appointments}
+        {parsedAppointments}
         <Appointment key="last" time="5pm"/> 
       </section>
     </main>
