@@ -11,6 +11,7 @@ const Form = (props) => {
 
   const reset = () => {
     setStudent("");
+    setError('')
     setInterviewer(null);
   }
   
@@ -20,7 +21,7 @@ const Form = (props) => {
   }
  
   const validate = () => {
-    if(!student) {
+    if(student === "") {
       setError("Student name cannot be blank");
       return;
     }

@@ -57,6 +57,7 @@ describe('Form', () => {
     fireEvent.change(getByPlaceholderText('Enter Student Name'), {
       target: { value: 'Lydia Miller-Jones' },
     });
+
     fireEvent.click(getByText('Save'));
 
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
@@ -70,7 +71,7 @@ describe('Form', () => {
     const { getByText, getByPlaceholderText, queryByText } = render(
       <Form
         interviewers={interviewers}
-        student="Lydia Mill-Jones"
+        name="Lydia Mill-Jones"
         onSave={jest.fn()}
         onCancel={onCancel}
       />
