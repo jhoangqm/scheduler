@@ -1,13 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 
-export default function useApplicationData() {
-  const [state, setState] = useState({
+export default function useApplicationData(initial) {
+  // const [state, setState] = useState({
+  //   day: "Monday",
+  //   days: [],
+  //   appointments: {},
+  //   interviewers: {}
+  // });
+
+  // reducer
+  const initialState = {
     day: 'Monday',
     days: [],
     appointments: {},
     interviewers: {},
-  });
+  };
+
+  const SET_DAY = 'SET_DAY';
+  const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
+  const SET_INTERVIEW = 'SET_INTERVIEW';
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case SET_DAY:
+        return { ...state, day: action.day };
+      case SET_APPLICATION_DATA:
+        return {
+          ...state,
+          days: action.days,
+          appointments: action.appointments,
+          interviewers: action.interviewers,
+        };
+      case SET_INTERVIEW:
+        return {
+          ...state,
+          appointments: action.appointments,
+          days: action.days,
+        };
+      default:
+        throw new Error(
+          `Tried to reduce with unsupported action type: ${action.type}`
+        );
+    }
+  }
 
   const updateSpots = function (state, appointments) {
     const dayObj = state.days.find((d) => d.name === state.day);
@@ -29,7 +67,8 @@ export default function useApplicationData() {
     return days;
   };
 
-  const setDay = (day) => setState({ ...state, day });
+  // const setDay = day => setState({...state, day});
+  const setDay = (day) => dispatch({ type: SET_DAY, day });
 
   useEffect(() => {
     Promise.all([
@@ -38,12 +77,17 @@ export default function useApplicationData() {
       axios.get('/api/interviewers'),
     ])
       .then((response) => {
-        setState((prev) => ({
-          ...prev,
+        // setState(prev => ({...prev,
+        //   days: response[0].data,
+        //   appointments: response[1].data,
+        //   interviewers: response[2].data
+        // }));
+        dispatch({
+          type: SET_APPLICATION_DATA,
           days: response[0].data,
           appointments: response[1].data,
           interviewers: response[2].data,
-        }));
+        });
       })
       .catch((e) => {
         console.log('error occurred during promise All :', e);
@@ -65,7 +109,8 @@ export default function useApplicationData() {
       .put(`/api/appointments/${id}`, appointment)
       .then((response) => {
         const days = updateSpots(state, appointments);
-        setState({ ...state, appointments, days });
+        // setState({...state, appointments, days});
+        dispatch({ type: SET_INTERVIEW, appointments, days });
       });
   }
 
@@ -79,12 +124,12 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-
     return axios
       .delete(`/api/appointments/${id}`, appointment)
       .then((response) => {
         const days = updateSpots(state, appointments);
-        setState({ ...state, appointments, days });
+        //  setState({...state, appointments, days});
+        dispatch({ type: SET_INTERVIEW, appointments, days });
       });
   }
 
