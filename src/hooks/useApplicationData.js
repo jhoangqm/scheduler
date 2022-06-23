@@ -1,6 +1,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 
+// This custom hook handles all of the application data
 export default function useApplicationData(initial) {
   // const [state, setState] = useState({
   //   day: "Monday",
@@ -47,6 +48,7 @@ export default function useApplicationData(initial) {
     }
   }
 
+  // this function is used to update the spots dynamicly
   const updateSpots = function (state, appointments) {
     const dayObj = state.days.find((d) => d.name === state.day);
 
@@ -94,6 +96,7 @@ export default function useApplicationData(initial) {
       });
   }, []);
 
+  // updates server with new interview after a save
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -114,6 +117,7 @@ export default function useApplicationData(initial) {
       });
   }
 
+  // updates server with new interview spot after deleting an existing appointment
   function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],

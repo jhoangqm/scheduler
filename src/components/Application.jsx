@@ -7,7 +7,7 @@ import Appointment from "./Appointment";
 import useApplicationData from 'hooks/useApplicationData';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
-
+//Application component responsible of displaying appointment components
 export default function Application(props) {
   const {
     state,
@@ -16,9 +16,13 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const dailyInterviewers = getInterviewersForDay(state, state.day);
   
+  
+ 
+  const dailyInterviewers = getInterviewersForDay(state, state.day);
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  
+  // renders appointment for the selected day
   const parsedAppointments = dailyAppointments.map((appointment)=> {
     const interview = getInterview(state, appointment.interview);
     return(

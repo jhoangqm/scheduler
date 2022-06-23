@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import 'components/DayListItem.scss';
 
+// components to format the spots based on each day
 const formatSpots = (spot) => {
   if (spot === 0) {
     return `no spots remaining`;
@@ -15,6 +16,7 @@ const formatSpots = (spot) => {
   }
 };
 
+// component displays the items in each days
 export default function DayListItem(props) {
   const { name, spots, selected, setDay } = props;
   const dayClass = classNames('day-list__item', {

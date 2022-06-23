@@ -1,5 +1,6 @@
 import React from 'react';
 
+//component that displays error during save or deleting an appointment
 export default function Error(props) {
   return (
     <main className="appointment__card appointment__card--error">

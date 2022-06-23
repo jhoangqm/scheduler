@@ -1,5 +1,6 @@
 import React from 'react';
 
+//component that displays the loading icon status
 export default function Status(props) {
   return (
     <main className="appointment__card appointment__card--status">

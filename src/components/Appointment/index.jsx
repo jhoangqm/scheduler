@@ -10,7 +10,7 @@ import Confirm from './Confirm';
 import Status from './Status';
 import Error from './Error';
 
-
+// component that is handling new,existing appointments and most of the functionality
 const Appointment = (props) => {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -22,10 +22,12 @@ const Appointment = (props) => {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
   
+  // custom hook used to display "mode"
   const {mode, transition, back} = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
+  //function called when clicking the save button, sends new appointment to the server
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -40,6 +42,7 @@ const Appointment = (props) => {
     transition(ERROR_SAVE, true));
   }
 
+  // function called when clicking the delete and confirm button, sends delete request by interview id to the server
   function deleteInterview(id) {
 
     transition(DELETING, true)
