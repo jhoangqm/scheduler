@@ -4,23 +4,23 @@ Interview Scheduler is a single page app that was built with REACT. Users can bo
 
 ## Product
 
-_Home Page_
+### Home Page
 
 ![Landing page](https://github.com/jhoangqm/scheduler/blob/master/docs/alldays.gif?raw=true)
 
-_Validation_
+### Validation
 
 ![validating an appointment](https://github.com/jhoangqm/scheduler/blob/master/docs/validation.gif?raw=true)
 
-_Booking an appointment_
+### Booking an appointment
 
 ![booking an appointment](https://github.com/jhoangqm/scheduler/blob/master/docs/createappointment.gif?raw=true)
 
-_Deleting an appointment_
+### Deleting an appointment
 
 ![deleting an appointment](https://github.com/jhoangqm/scheduler/blob/master/docs/deleteappointment.gif?raw=true)
 
-_Editing an appointment_
+### Editing an appointment
 
 ![editing an appointment](https://github.com/jhoangqm/scheduler/blob/master/docs/editappointment.gif?raw=true)
 
