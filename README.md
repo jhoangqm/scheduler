@@ -1,6 +1,6 @@
 # Interview Scheduler
 
-Interview Scheduler is a single page app that was built with REACT. Users can book appointments with interviewers. They can also book one more appointments. There is a total of 25 slots and they have the possibility to choose the interviewer of their choice. This app is mobile friendly.
+Interview Scheduler is a single page app that was built with REACT. Users can book appointments with interviewers. There is a total of 25 slots and they have the possibility to choose the interviewer of their choice. This app is mobile friendly.
 
 ## Product
 
