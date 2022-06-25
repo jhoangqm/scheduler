@@ -28,6 +28,8 @@ Interview Scheduler is a single page app that was built with REACT. Users can bo
 
 Install dependencies with `npm install`.
 
+Go to https://github.com/lighthouse-labs/scheduler-api fork, clone and follow readme to download api
+
 ## Dependencies
 
 - axios 0.27.x
