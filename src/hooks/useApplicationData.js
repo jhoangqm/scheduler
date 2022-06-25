@@ -1,15 +1,8 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import axios from 'axios';
 
 // This custom hook handles all of the application data
-export default function useApplicationData(initial) {
-  // const [state, setState] = useState({
-  //   day: "Monday",
-  //   days: [],
-  //   appointments: {},
-  //   interviewers: {}
-  // });
-
+export default function useApplicationData() {
   // reducer
   const initialState = {
     day: 'Monday',
@@ -69,7 +62,6 @@ export default function useApplicationData(initial) {
     return days;
   };
 
-  // const setDay = day => setState({...state, day});
   const setDay = (day) => dispatch({ type: SET_DAY, day });
 
   useEffect(() => {
@@ -79,11 +71,6 @@ export default function useApplicationData(initial) {
       axios.get('/api/interviewers'),
     ])
       .then((response) => {
-        // setState(prev => ({...prev,
-        //   days: response[0].data,
-        //   appointments: response[1].data,
-        //   interviewers: response[2].data
-        // }));
         dispatch({
           type: SET_APPLICATION_DATA,
           days: response[0].data,
@@ -112,7 +99,6 @@ export default function useApplicationData(initial) {
       .put(`/api/appointments/${id}`, appointment)
       .then((response) => {
         const days = updateSpots(state, appointments);
-        // setState({...state, appointments, days});
         dispatch({ type: SET_INTERVIEW, appointments, days });
       });
   }
@@ -132,7 +118,6 @@ export default function useApplicationData(initial) {
       .delete(`/api/appointments/${id}`, appointment)
       .then((response) => {
         const days = updateSpots(state, appointments);
-        //  setState({...state, appointments, days});
         dispatch({ type: SET_INTERVIEW, appointments, days });
       });
   }

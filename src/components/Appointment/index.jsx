@@ -45,7 +45,7 @@ const Appointment = (props) => {
   // function called when clicking the delete and confirm button, sends delete request by interview id to the server
   function deleteInterview(id) {
 
-    transition(DELETING, true)
+    transition(DELETING)
     props.cancelInterview(id)
     .then(() => transition(EMPTY))
     .catch(error => transition(ERROR_DELETE, true));
@@ -66,21 +66,21 @@ const Appointment = (props) => {
           {/* for Show component, sending props.interview  - which contains student name and interviewer object */}
           {mode === CREATE && <Form 
           interviewers={props.interviewers} 
-          onCancel={() => back()}
+          onCancel={back}
           onSave={save}
           />}
           {mode === SAVING && <Status message={"Saving"}/>}
           {mode === DELETING && <Status message={"Deleting"}/>}
-          {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"}onCancel={() => back()} onConfirm={() => deleteInterview(props.id)}/>}
+          {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"}onCancel={back} onConfirm={() => deleteInterview(props.id)}/>}
           {mode === EDIT && <Form
           student={props.interview.student}
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
-          onCancel={() => back()}
+          onCancel={back}
           onSave={save}
         />}
-          {mode === ERROR_SAVE && <Error message={"Error occurred during saving"} onClose={() => back()}/>}
-          {mode === ERROR_DELETE && <Error message={"Error occurred during deleting"} onClose={() => back()}/>}
+          {mode === ERROR_SAVE && <Error message={"Error occurred during saving"} onClose={back}/>}
+          {mode === ERROR_DELETE && <Error message={"Error occurred during deleting"} onClose={back}/>}
         </article>
      
       </Fragment>
